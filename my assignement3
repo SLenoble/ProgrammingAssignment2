@@ -1,0 +1,68 @@
+## Put comments here that give an overall description of what your
+## functions do
+## funtions to cache and find the inverse of a matrix
+## it will test if the result has been even cache
+## if it's so, the result in cache will be used
+## we suppose the matrix is inversible
+
+## Write a short comment describing this function
+## This function 'makeCacheMatrix' will make a list of 4 functions :
+##    set the value of the matrix
+##    get the value of the matrix
+##    set the value of the inverse
+##    get the value of the invers 
+
+makeCacheMatrix <- function(x = matrix()) {
+        inv <- NULL
+        set <- function(y) {
+                x <<- y
+                inv <<- NULL
+        }
+        get <- function() x
+        setinverse <- function(inverse) inv <<- inverse
+        getinverse <- function() inv
+        list(set=set, get=get, 
+		 setinverse=setinverse, 
+		 getinverse=getinverse)
+ }
+
+
+## Write a short comment describing this function
+## The following function calculates the inverse of the cache matrix.
+## it first checks to see if the mean has already been calculated
+##  If so, it gets the inverse from the cache and skips the computation.
+## Otherwise, it calculates the inverse of the matrix and cache the result
+ cacheSolve <- function(x, ...) {
+
+         inv <- x$getinverse()
+	   if(!is.null(inv)) {
+                 message("Getting cached data...")
+                 return(inv)
+         }
+         data <- x$get()
+         inv <- solve(data)
+         x$setinverse(inv)
+         inv
+
+ }
+
+##test
+## x <- matrix(c(1, 2, 2, 1), nrow=2, ncol=2)
+## B <- makeCacheMatrix(x)
+## B$get()
+## cacheSolve(B)
+##           [,1]       [,2]
+## [1,] -0.3333333  0.6666667
+## [2,]  0.6666667 -0.3333333
+## submit again
+## > cacheSolve(B)
+## Getting cached data...
+##            [,1]       [,2]
+## [1,] -0.3333333  0.6666667
+## [2,]  0.6666667 -0.3333333
+## ==> the cache result is used
+##and the result is the inverse of the matrix
+## > solve(x)
+##           [,1]       [,2]
+## [1,] -0.3333333  0.6666667
+## [2,]  0.6666667 -0.3333333
